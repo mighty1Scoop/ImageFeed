@@ -20,6 +20,11 @@ class ImagesViewController: UIViewController {
         return formatter
     }()
     
+    //MARK: - Properties
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,26 +33,7 @@ class ImagesViewController: UIViewController {
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
-    
-    //MARK: - Private methods
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-        guard let image = UIImage(named: photosName[indexPath.row]) else {
-            return
-        }
-        
-        cell.cellImage?.image = image
-        cell.cellImage?.layer.cornerRadius = 16
-        cell.cellImage?.layer.masksToBounds = true
-        
-        cell.dateLabel.text = dateFormatter.string(from: Date())
-        
-        if indexPath.row % 2 == 0 {
-            cell.likeButton.setImage(UIImage(named: "liked"), for: .normal)
-        } else {
-            cell.likeButton.setImage(UIImage(named: "not liked"), for: .normal)
-        }
-    }
-    
+
 }
 
 // MARK: - UITableViewDelegate
@@ -81,7 +67,11 @@ extension ImagesViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        configCell(for: imageListCell, with: indexPath)
+        let image = UIImage(named: photosName[indexPath.row]) ?? UIImage()
+        let isLiked = indexPath.row % 2 == 0
+       
+        imageListCell.configure(image: image, date: dateFormatter.string(from: Date()), isLiked: isLiked)
+        
         return imageListCell
     }
     
