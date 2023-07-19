@@ -14,6 +14,7 @@
 		242825132A4DFFE400A7E6D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 242825122A4DFFE400A7E6D9 /* Assets.xcassets */; };
 		242825162A4DFFE400A7E6D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242825142A4DFFE400A7E6D9 /* LaunchScreen.storyboard */; };
 		246D3C8B2A5ECB6A00C3FD27 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246D3C8A2A5ECB6A00C3FD27 /* ImagesListCell.swift */; };
+		246D3C912A6552D300C3FD27 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246D3C902A6552D300C3FD27 /* ProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		242825152A4DFFE400A7E6D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		242825172A4DFFE400A7E6D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		246D3C8A2A5ECB6A00C3FD27 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		246D3C902A6552D300C3FD27 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				246D3C8C2A5ED71500C3FD27 /* ImagesList */,
+				246D3C8F2A654AAC00C3FD27 /* ProfileScreen */,
 				242825092A4DFFE300A7E6D9 /* AppDelegate.swift */,
 				2428250B2A4DFFE300A7E6D9 /* SceneDelegate.swift */,
 				2428250F2A4DFFE300A7E6D9 /* Main.storyboard */,
@@ -76,6 +79,14 @@
 				246D3C8A2A5ECB6A00C3FD27 /* ImagesListCell.swift */,
 			);
 			path = ImagesList;
+			sourceTree = "<group>";
+		};
+		246D3C8F2A654AAC00C3FD27 /* ProfileScreen */ = {
+			isa = PBXGroup;
+			children = (
+				246D3C902A6552D300C3FD27 /* ProfileViewController.swift */,
+			);
+			path = ProfileScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +162,7 @@
 			files = (
 				2428250E2A4DFFE300A7E6D9 /* ImagesViewController.swift in Sources */,
 				246D3C8B2A5ECB6A00C3FD27 /* ImagesListCell.swift in Sources */,
+				246D3C912A6552D300C3FD27 /* ProfileViewController.swift in Sources */,
 				2428250A2A4DFFE300A7E6D9 /* AppDelegate.swift in Sources */,
 				2428250C2A4DFFE300A7E6D9 /* SceneDelegate.swift in Sources */,
 			);
@@ -305,6 +317,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -336,6 +349,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
