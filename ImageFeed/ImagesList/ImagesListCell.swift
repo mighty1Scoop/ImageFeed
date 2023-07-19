@@ -19,6 +19,8 @@ final class ImagesListCell: UITableViewCell {
 
 extension ImagesListCell {
     func configure(image: UIImage, date: String, isLiked: Bool) {
+        selectionStyle = .none
+        
         cellImage?.image = image
         dateLabel.text = date
         

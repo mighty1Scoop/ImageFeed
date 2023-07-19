@@ -29,31 +29,31 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="H84-Cb-GTl" userLabel="Cell Image">
-                                                    <rect key="frame" x="20" y="11" width="353" height="202"/>
+                                                    <rect key="frame" x="16" y="4" width="361" height="216"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="27 августа 2022" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oS7-8d-Z8z" userLabel="Date Label">
-                                                    <rect key="frame" x="28.000000000000007" y="189.33333333333334" width="101.66666666666669" height="15.666666666666657"/>
+                                                    <rect key="frame" x="24.000000000000007" y="196.33333333333334" width="101.66666666666669" height="15.666666666666657"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" name="YP White"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6AP-xz-DHa" userLabel="Like Button">
-                                                    <rect key="frame" x="329" y="11" width="44" height="44"/>
+                                                    <rect key="frame" x="333" y="4" width="44" height="44"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                    <state key="normal" image="liked"/>
+                                                    <state key="normal" image="like_button_on"/>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" name="YP Black"/>
                                             <constraints>
-                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="top" secondItem="gIX-ep-LEG" secondAttribute="topMargin" id="GK7-O5-VD7"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="oS7-8d-Z8z" secondAttribute="bottom" constant="8" id="IYy-Us-Bpb"/>
-                                                <constraint firstItem="6AP-xz-DHa" firstAttribute="top" secondItem="gIX-ep-LEG" secondAttribute="topMargin" id="K6i-oB-gOG"/>
-                                                <constraint firstItem="oS7-8d-Z8z" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leadingMargin" constant="8" id="RJS-Q2-fea"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="6AP-xz-DHa" secondAttribute="trailing" id="SND-DL-Hz5"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="H84-Cb-GTl" secondAttribute="trailing" id="ScA-tm-Zlk"/>
-                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oS7-8d-Z8z" secondAttribute="trailing" constant="20" symbolic="YES" id="SkX-1b-wxl"/>
-                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leadingMargin" id="XgG-7V-APj"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="H84-Cb-GTl" secondAttribute="bottom" id="z3S-EM-cqY"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="bottom" secondItem="oS7-8d-Z8z" secondAttribute="bottom" constant="8" id="3cj-Pg-vOE"/>
+                                                <constraint firstAttribute="bottom" secondItem="H84-Cb-GTl" secondAttribute="bottom" constant="4" id="5A1-Cw-kZU"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leading" constant="16" id="GDR-e0-6lV"/>
+                                                <constraint firstItem="oS7-8d-Z8z" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leadingMargin" constant="4" id="HIN-Ue-ROA"/>
+                                                <constraint firstItem="6AP-xz-DHa" firstAttribute="top" secondItem="H84-Cb-GTl" secondAttribute="top" id="K6i-oB-gOG"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="trailing" secondItem="6AP-xz-DHa" secondAttribute="trailing" id="SND-DL-Hz5"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oS7-8d-Z8z" secondAttribute="trailing" constant="20" id="SkX-1b-wxl"/>
+                                                <constraint firstAttribute="trailing" secondItem="H84-Cb-GTl" secondAttribute="trailing" constant="16" id="VTk-F2-rV9"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="top" secondItem="gIX-ep-LEG" secondAttribute="top" constant="4" id="bBy-Bq-rMl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" name="YP Black"/>
@@ -90,7 +90,7 @@
     </scenes>
     <resources>
         <image name="0" width="200" height="132"/>
-        <image name="liked" width="44" height="44"/>
+        <image name="like_button_on" width="44" height="44"/>
         <namedColor name="YP Black">
             <color red="0.10199999809265137" green="0.10599999874830246" blue="0.13300000131130219" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
