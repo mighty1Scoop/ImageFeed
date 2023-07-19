@@ -19,6 +19,7 @@ class ImagesViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     
     //MARK: - Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -33,12 +34,25 @@ class ImagesViewController: UIViewController {
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowSingleImageSegueIdentifier { // 1
+            let viewController = segue.destination as! SingleImageViewController // 2
+            let indexPath = sender as! IndexPath // 3
+            let image = UIImage(named: photosName[indexPath.row]) // 4
+            viewController.image = image // 5
+        } else {
+            super.prepare(for: segue, sender: sender) // 6
+        }
+    }
 
 }
 
 // MARK: - UITableViewDelegate
 extension ImagesViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: ShowSingleImageSegueIdentifier, sender: indexPath)
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let image = UIImage(named: photosName[indexPath.row]) else {
