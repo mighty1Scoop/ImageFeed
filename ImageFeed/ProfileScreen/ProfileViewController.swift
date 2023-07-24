@@ -48,10 +48,6 @@ final class ProfileViewController: UIViewController {
         configureNameLabel()
         configureNicknameLabel()
         configureDescriptionLabel()
-        
-        
-        
-        
     }
     
 }

@@ -42,6 +42,12 @@
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" image="like_button_on"/>
                                                 </button>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3G1-36-HgZ">
+                                                    <rect key="frame" x="16" y="190" width="361" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="Prj-Dv-Sc0"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <color key="backgroundColor" name="YP Black"/>
                                             <constraints>
@@ -50,8 +56,11 @@
                                                 <constraint firstItem="H84-Cb-GTl" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leading" constant="16" id="GDR-e0-6lV"/>
                                                 <constraint firstItem="oS7-8d-Z8z" firstAttribute="leading" secondItem="gIX-ep-LEG" secondAttribute="leadingMargin" constant="4" id="HIN-Ue-ROA"/>
                                                 <constraint firstItem="6AP-xz-DHa" firstAttribute="top" secondItem="H84-Cb-GTl" secondAttribute="top" id="K6i-oB-gOG"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="bottom" secondItem="3G1-36-HgZ" secondAttribute="bottom" id="Meb-xE-p9h"/>
+                                                <constraint firstItem="H84-Cb-GTl" firstAttribute="trailing" secondItem="3G1-36-HgZ" secondAttribute="trailing" id="Rzd-M5-SOT"/>
                                                 <constraint firstItem="H84-Cb-GTl" firstAttribute="trailing" secondItem="6AP-xz-DHa" secondAttribute="trailing" id="SND-DL-Hz5"/>
                                                 <constraint firstItem="H84-Cb-GTl" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oS7-8d-Z8z" secondAttribute="trailing" constant="20" id="SkX-1b-wxl"/>
+                                                <constraint firstItem="3G1-36-HgZ" firstAttribute="leading" secondItem="H84-Cb-GTl" secondAttribute="leading" id="T2a-nJ-XUX"/>
                                                 <constraint firstAttribute="trailing" secondItem="H84-Cb-GTl" secondAttribute="trailing" constant="16" id="VTk-F2-rV9"/>
                                                 <constraint firstItem="H84-Cb-GTl" firstAttribute="top" secondItem="gIX-ep-LEG" secondAttribute="top" constant="4" id="bBy-Bq-rMl"/>
                                             </constraints>
@@ -60,6 +69,7 @@
                                         <connections>
                                             <outlet property="cellImage" destination="H84-Cb-GTl" id="cZd-lB-ozF"/>
                                             <outlet property="dateLabel" destination="oS7-8d-Z8z" id="imj-HO-xeS"/>
+                                            <outlet property="gradientImageView" destination="3G1-36-HgZ" id="Eiw-pt-00w"/>
                                             <outlet property="likeButton" destination="6AP-xz-DHa" id="EnY-9n-lTQ"/>
                                         </connections>
                                     </tableViewCell>
@@ -82,7 +92,7 @@
                     <navigationItem key="navigationItem" id="yxZ-KR-sWK"/>
                     <connections>
                         <outlet property="tableView" destination="weL-J5-esv" id="K3e-ag-4gy"/>
-                        <segue destination="C36-tI-GS8" kind="presentation" identifier="ShowSingleImage" modalPresentationStyle="fullScreen" id="G1a-x7-Med"/>
+                        <segue destination="C36-tI-GS8" kind="presentation" identifier="ShowSingleImage" id="G1a-x7-Med"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

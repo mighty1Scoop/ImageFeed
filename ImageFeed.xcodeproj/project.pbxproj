@@ -72,12 +72,12 @@
 		242825082A4DFFE300A7E6D9 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				24370C822A6F08A700E6B8D3 /* Helpers */,
+				242825092A4DFFE300A7E6D9 /* AppDelegate.swift */,
+				2428250B2A4DFFE300A7E6D9 /* SceneDelegate.swift */,
 				246D3C8C2A5ED71500C3FD27 /* ImagesList */,
 				240131B92A686667009F83A7 /* SingleImageView */,
 				246D3C8F2A654AAC00C3FD27 /* ProfileScreen */,
-				242825092A4DFFE300A7E6D9 /* AppDelegate.swift */,
-				2428250B2A4DFFE300A7E6D9 /* SceneDelegate.swift */,
+				24370C822A6F08A700E6B8D3 /* Helpers */,
 				2428250F2A4DFFE300A7E6D9 /* Main.storyboard */,
 				242825122A4DFFE400A7E6D9 /* Assets.xcassets */,
 				242825142A4DFFE400A7E6D9 /* LaunchScreen.storyboard */,
