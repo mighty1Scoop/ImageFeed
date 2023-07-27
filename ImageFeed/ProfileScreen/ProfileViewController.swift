@@ -20,6 +20,10 @@ final class ProfileViewController: UIViewController {
     private let nicknameLabel = UILabel()
     private let descriptionLabel = UILabel()
     
+    //MARK: - Status bar
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {

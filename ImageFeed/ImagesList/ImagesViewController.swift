@@ -12,7 +12,6 @@ class ImagesViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     //MARK: - Private properties
-    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     private let photosName: [String] = Array(0..<20).map{ "\($0)" }
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -20,6 +19,7 @@ class ImagesViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
+    private let ShowSingleImageSegueIdentifier = "ShowSingleImage"
     
     //MARK: - Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {

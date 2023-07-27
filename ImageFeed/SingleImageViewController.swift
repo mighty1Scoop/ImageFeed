@@ -17,10 +17,6 @@ final class SingleImageViewController: UIViewController {
         }
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
-    }
-    
     //MARK: - IBOutlets
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
