@@ -37,16 +37,19 @@ class ImagesViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowSingleImageSegueIdentifier {
-            let viewController = segue.destination as! SingleImageViewController
-            let indexPath = sender as! IndexPath
-            let imageName = photosName[indexPath.row]
-            let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
+            if
+                let viewController = segue.destination as? SingleImageViewController,
+                let indexPath = sender as? IndexPath
+            {
+                let imageName = photosName[indexPath.row]
+                let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
+                viewController.image = image
+            } else {
+                super.prepare(for: segue, sender: sender)
+            }
         }
     }
-
+    
 }
 
 // MARK: - UITableViewDelegate
@@ -84,7 +87,7 @@ extension ImagesViewController: UITableViewDataSource {
         
         let image = UIImage(named: photosName[indexPath.row]) ?? UIImage()
         let isLiked = indexPath.row % 2 == 0
-       
+        
         imageListCell.configure(image: image, date: dateFormatter.string(from: Date()), isLiked: isLiked)
         
         return imageListCell
