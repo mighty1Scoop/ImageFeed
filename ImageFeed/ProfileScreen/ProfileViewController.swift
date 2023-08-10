@@ -56,9 +56,9 @@ final class ProfileViewController: UIViewController {
     
 }
 //MARK: ConfigureUI
-extension ProfileViewController {
+private extension ProfileViewController {
     
-    private func configureMainContainer() {
+    func configureMainContainer() {
         view.addSubview(mainContainer)
         
         mainContainer.axis = .vertical
@@ -76,7 +76,7 @@ extension ProfileViewController {
         )
     }
     
-    private func configureHeaderContatiner() {
+    func configureHeaderContatiner() {
         headerContainer.axis = .horizontal
         headerContainer.distribution = .equalSpacing
         headerContainer.alignment = .center
@@ -84,7 +84,7 @@ extension ProfileViewController {
         
     }
     
-    private func configureProfileImage() {
+    func configureProfileImage() {
         profileImage.image = UIImage(named: "ProfileImage")
         
         profileImage.translatesAutoresizingMaskIntoConstraints = false
@@ -97,7 +97,7 @@ extension ProfileViewController {
         
     }
     
-    private func configureExitButton() {
+    func configureExitButton() {
         let exitButtonImage = UIImage(named: "ExitImage")
         exitButton.setImage(exitButtonImage, for: .normal)
         
@@ -111,19 +111,19 @@ extension ProfileViewController {
         )
     }
     
-    private func configureNameLabel() {
+    func configureNameLabel() {
         nameLabel.text = "Екатерина Новикова"
         nameLabel.textColor = .ypWhite
         nameLabel.font = .boldSystemFont(ofSize: 23)
     }
     
-    private func configureNicknameLabel() {
+    func configureNicknameLabel() {
         nicknameLabel.text = "@ekaterina_novikova"
         nicknameLabel.textColor = .ypGray
         nicknameLabel.font = .systemFont(ofSize: 13)
     }
     
-    private func configureDescriptionLabel() {
+    func configureDescriptionLabel() {
         descriptionLabel.text = "Hello World!"
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = .systemFont(ofSize: 13)

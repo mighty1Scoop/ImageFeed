@@ -38,7 +38,7 @@ class AuthViewController: UIViewController {
 }
 
 
-extension AuthViewController {
+private extension AuthViewController {
     func configureSignInButton() {
         signInButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
         signInButton.layer.cornerRadius = 16

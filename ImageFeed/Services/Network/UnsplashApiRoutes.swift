@@ -7,39 +7,46 @@
 
 import Foundation
 
-var selfProfileRequest: URLRequest {
-    URLRequest.makeHTTPRequest(path: "/me")
+struct UnsplashApiRoutes {
+    static var selfProfileRequest: URLRequest {
+        URLRequest.makeHTTPRequest(path: "/me")
+    }
+    
+    static func profileImageURLRequest(username: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(path: "/users/\(username)")
+    }
+    
+    static func photosRequest(page: Int, perPage: Int) -> URLRequest {
+        URLRequest.makeHTTPRequest(path: "/photos?"
+                                   + "page=\(page)"
+                                   + "&&per_page=\(perPage)"
+        )
+    }
+    
+    static func likeRequest(photoId: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(
+            path: "/photos/\(photoId)/like",
+            httpMethod: "POST"
+        )
+    }
+    
+    static func unlikeRequest(photoId: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(
+            path: "/photos/\(photoId)/like",
+            httpMethod: "DELETE"
+        )
+    }
+    static func authTokenRequest(code: String) -> URLRequest {
+        URLRequest.makeHTTPRequest(
+            path: "/oauth/token"
+            + "?client_id=\(AccessKey)"
+            + "&&client_secret=\(SecretKey)"
+            + "&&redirect_uri=\(RedirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            httpMethod: "POST",
+            baseURL: URL(string: "https://unsplash.com")!
+        )
+    }
 }
-func profileImageURLRequest(username: String) -> URLRequest {
-    URLRequest.makeHTTPRequest(path: "/users/\(username)")
-}
-func photosRequest(page: Int, perPage: Int) -> URLRequest {
-    URLRequest.makeHTTPRequest(path: "/photos?"
-                               + "page=\(page)"
-                               + "&&per_page=\(perPage)"
-    )
-}
-func likeRequest(photoId: String) -> URLRequest {
-    URLRequest.makeHTTPRequest(
-        path: "/photos/\(photoId)/like",
-        httpMethod: "POST"
-    )
-}
-func unlikeRequest(photoId: String) -> URLRequest {
-    URLRequest.makeHTTPRequest(
-        path: "/photos/\(photoId)/like",
-        httpMethod: "DELETE"
-    )
-}
-func authTokenRequest(code: String) -> URLRequest {
-    URLRequest.makeHTTPRequest(
-        path: "/oauth/token"
-        + "?client_id=\(AccessKey)"
-        + "&&client_secret=\(SecretKey)"
-        + "&&redirect_uri=\(RedirectURI)"
-        + "&&code=\(code)"
-        + "&&grant_type=authorization_code",
-        httpMethod: "POST",
-        baseURL: URL(string: "https://unsplash.com")!
-    )
-}
+

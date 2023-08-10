@@ -18,7 +18,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     //MARK: - IBOutlets
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private var imageView: UIImageView!
     
     //MARK: - Lifecycle

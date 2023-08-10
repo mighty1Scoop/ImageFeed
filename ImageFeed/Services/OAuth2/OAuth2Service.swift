@@ -11,21 +11,24 @@ final class OAuth2Service {
     static let shared = OAuth2Service()
     
     private let urlSession = URLSession.shared
+    private let tokenStorage = OAuth2TokenStorage()
     
     private (set) var authToken: String? {
         get {
-            return OAuth2TokenStorage().token
+            tokenStorage.token
         }
         set {
-            OAuth2TokenStorage().token = newValue
+           tokenStorage.token = newValue
         }
     }
+    
+    private init() { }
     
     func fetchAuthToken(
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
-        let request: URLRequest = authTokenRequest(code: code)
+        let request: URLRequest = UnsplashApiRoutes.authTokenRequest(code: code)
         let task = object(for: request) { [weak self] result in
             guard let self else { return }
             switch result {
@@ -41,8 +44,8 @@ final class OAuth2Service {
     }
 }
 
-extension OAuth2Service {
-    private func object(
+private extension OAuth2Service {
+     func object(
         for request: URLRequest,
         completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void
     ) -> URLSessionTask {
