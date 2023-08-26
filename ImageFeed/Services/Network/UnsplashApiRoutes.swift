@@ -12,8 +12,10 @@ struct UnsplashApiRoutes {
         URLRequest.makeHTTPRequest(path: "/me")
     }
     
-    static func profileImageURLRequest(username: String) -> URLRequest {
-        URLRequest.makeHTTPRequest(path: "/users/\(username)")
+    static func profileImageURLRequest(username: String, authToken: String) -> URLRequest {
+        var request = URLRequest.makeHTTPRequest(path: "/users/\(username)")
+        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        return request
     }
     
     static func photosRequest(page: Int, perPage: Int) -> URLRequest {

@@ -12,6 +12,8 @@ final class OAuth2Service {
     
     private let urlSession = URLSession.shared
     private let tokenStorage = OAuth2TokenStorage()
+    private var lastCode: String?
+    private var task: URLSessionTask?
     
     private (set) var authToken: String? {
         get {
@@ -28,6 +30,11 @@ final class OAuth2Service {
         _ code: String,
         completion: @escaping (Result<String, Error>) -> Void
     ) {
+        assert(Thread.isMainThread)
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+        
         let request: URLRequest = UnsplashApiRoutes.authTokenRequest(code: code)
         let task = object(for: request) { [weak self] result in
             guard let self else { return }
@@ -58,4 +65,5 @@ private extension OAuth2Service {
             }
             completion(response)
         }
-} }
+    }
+}

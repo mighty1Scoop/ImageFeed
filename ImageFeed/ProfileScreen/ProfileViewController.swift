@@ -9,6 +9,10 @@ import UIKit
 
 
 final class ProfileViewController: UIViewController {
+    //MARK: - Private arguments
+    private let profileService = ProfileService.shared
+    private var profileImageServiceObserver = NotificationCenter.default
+    
     //MARK: - UIElements
     private let mainContainer = UIStackView()
     
@@ -28,11 +32,23 @@ final class ProfileViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
         
+        guard let profile = profileService.profile else { return }
+        setUp(with: profile)
+        profileImageServiceObserver.addObserver(
+                forName: ProfileImageService.DidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                guard let self else { return }
+                self.updateAvatar()
+            }
     }
-    
-    private func setUp() {
+}
+
+//MARK: ConfigureUI
+private extension ProfileViewController {
+    func setUp(with profile: Profile) {
         let mainContainerViews: [UIView] = [headerContainer, nameLabel, nicknameLabel,descriptionLabel]
         let headerContainerViews: [UIView] =
         [profileImage, exitButton]
@@ -49,15 +65,19 @@ final class ProfileViewController: UIViewController {
         configureProfileImage()
         configureExitButton()
         
-        configureNameLabel()
-        configureNicknameLabel()
-        configureDescriptionLabel()
+        configureNameLabel(with: profile.name)
+        configureNicknameLabel(with: profile.loginName)
+        configureDescriptionLabel(with: profile.bio)
     }
     
-}
-//MARK: ConfigureUI
-private extension ProfileViewController {
-    
+    private func updateAvatar() {                                   // 8
+        guard
+            let profileImageURL = ProfileImageService.shared.avatarURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+    }
+
     func configureMainContainer() {
         view.addSubview(mainContainer)
         
@@ -86,6 +106,8 @@ private extension ProfileViewController {
     
     func configureProfileImage() {
         profileImage.image = UIImage(named: "ProfileImage")
+        profileImage.layer.cornerRadius = 61
+        profileImage.mask?.clipsToBounds = true
         
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
@@ -111,20 +133,20 @@ private extension ProfileViewController {
         )
     }
     
-    func configureNameLabel() {
-        nameLabel.text = "Екатерина Новикова"
+    func configureNameLabel(with name: String) {
+        nameLabel.text = name
         nameLabel.textColor = .ypWhite
         nameLabel.font = .boldSystemFont(ofSize: 23)
     }
     
-    func configureNicknameLabel() {
-        nicknameLabel.text = "@ekaterina_novikova"
+    func configureNicknameLabel(with nickname: String) {
+        nicknameLabel.text = nickname
         nicknameLabel.textColor = .ypGray
         nicknameLabel.font = .systemFont(ofSize: 13)
     }
     
-    func configureDescriptionLabel() {
-        descriptionLabel.text = "Hello World!"
+    func configureDescriptionLabel(with description: String) {
+        descriptionLabel.text = description
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = .systemFont(ofSize: 13)
     }

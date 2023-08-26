@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class OAuth2TokenStorage {
+    final class OAuth2TokenStorage {
     private let userDefaults = UserDefaults.standard
     
     private enum Keys: String {
