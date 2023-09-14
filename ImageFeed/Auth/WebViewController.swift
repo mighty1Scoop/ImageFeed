@@ -13,6 +13,7 @@ protocol WebViewViewControllerDelegate: AnyObject {
 }
 
 final class WebViewViewController: UIViewController {
+    private var estimatedProgressObservation: NSKeyValueObservation?
     private struct QueryKeys {
         static let clientId = "client_id"
         static let redirectURI = "redirect_uri"
@@ -30,13 +31,14 @@ final class WebViewViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil
-        )
-        updateProgress()
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+             options: [],
+             changeHandler: {
+                 [weak self] _, _ in
+                 guard let self else { return }
+                 self.updateProgress()
+        })
     }
     
     override func viewDidLoad() {
@@ -49,26 +51,6 @@ final class WebViewViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        webView.removeObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            context: nil
-        )
-    }
-    
-    //MARK: - Private methods
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
     }
     
     //MARK: - IBAtcions

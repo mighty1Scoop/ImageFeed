@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import SwiftKeychainWrapper
 
-    final class OAuth2TokenStorage {
-    private let userDefaults = UserDefaults.standard
+
+final class OAuth2TokenStorage {
+    private let keyChainWrapper = KeychainWrapper.standard
     
     private enum Keys: String {
         case accessToken
@@ -16,11 +18,14 @@ import Foundation
     
     var token: String? {
         get {
-            userDefaults.string(forKey: Keys.accessToken.rawValue)
+            keyChainWrapper.string(forKey: Keys.accessToken.rawValue)
         }
         set {
-            userDefaults.set(newValue, forKey: Keys.accessToken.rawValue)
+            keyChainWrapper.set(newValue ?? "", forKey: Keys.accessToken.rawValue)
         }
     }
     
+    func removeToken() {
+        keyChainWrapper.removeObject(forKey: Keys.accessToken.rawValue)
+    }
 }

@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 
 final class ProfileViewController: UIViewController {
     //MARK: - Private arguments
     private let profileService = ProfileService.shared
-    private var profileImageServiceObserver = NotificationCenter.default
+    private let profileImageService = ProfileImageService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     //MARK: - UIElements
     private let mainContainer = UIStackView()
@@ -35,14 +37,16 @@ final class ProfileViewController: UIViewController {
         
         guard let profile = profileService.profile else { return }
         setUp(with: profile)
-        profileImageServiceObserver.addObserver(
-                forName: ProfileImageService.DidChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self else { return }
-                self.updateAvatar()
-            }
+        
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.DidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.updateAvatar()
+        }
+        updateAvatar()
     }
 }
 
@@ -68,14 +72,16 @@ private extension ProfileViewController {
         configureNameLabel(with: profile.name)
         configureNicknameLabel(with: profile.loginName)
         configureDescriptionLabel(with: profile.bio)
+
     }
     
-    private func updateAvatar() {                                   // 8
-        guard
-            let profileImageURL = ProfileImageService.shared.avatarURL,
-            let url = URL(string: profileImageURL)
-        else { return }
-        // TODO [Sprint 11] Обновить аватар, используя Kingfisher
+    private func updateAvatar() {
+        guard let url = profileImageService.avatarURL else { return }
+        let processor = RoundCornerImageProcessor(cornerRadius: 61)
+        profileImage.kf.indicatorType = .activity
+        profileImage.kf.setImage(with: url, options: [.processor(processor)])
+        profileImage.layer.cornerRadius = 35
+        profileImage.layer.masksToBounds = true
     }
 
     func configureMainContainer() {
@@ -105,9 +111,8 @@ private extension ProfileViewController {
     }
     
     func configureProfileImage() {
-        profileImage.image = UIImage(named: "ProfileImage")
-        profileImage.layer.cornerRadius = 61
-        profileImage.mask?.clipsToBounds = true
+        let image = UIImage(named: "Stub") ?? UIImage(systemName: "person.crop.circle.fill")!
+        profileImage.image = image
         
         profileImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(

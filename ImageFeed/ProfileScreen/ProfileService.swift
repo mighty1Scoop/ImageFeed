@@ -10,8 +10,8 @@ import Foundation
 struct ProfileResult: Decodable {
     let username: String
     let firstName: String
-    let lastName: String
-    let bio: String
+    let lastName: String?
+    let bio: String?
     
     enum CodingKeys: String, CodingKey {
         case firstName = "first_name"
@@ -28,50 +28,36 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     
+    private init() { }
     
     func fetchProfile(authToken: String, completion: @escaping (Result<Profile?, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if lastToken == authToken { return }
+        if profile != nil { return }
         task?.cancel()
-        lastToken = authToken
         
         var request = UnsplashApiRoutes.selfProfileRequest
         request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
         
-        let task = object(for: request) { result in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self else { return }
+            
             switch result {
             case .success(let body):
-                print("❇️", body)
-                self.profile = Profile(
+                profile = Profile(
                     username: body.username,
-                    bio: body.bio,
+                    bio: body.bio ?? "",
                     firstName: body.firstName,
-                    lastName: body.lastName
+                    lastName: body.lastName ?? ""
                 )
-                completion(.success(self.profile))
+                
+                completion(.success(profile))
+                self.task = nil
             case .failure(let error):
-                print("🔴 \(error)")
                 completion(.failure(error))
             }
         }
+        self.task = task
         task.resume()
     }
     
-}
-
-private extension ProfileService {
-    func object(
-        for request: URLRequest,
-        completion: @escaping (Result<ProfileResult, Error>) -> Void
-    ) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        return urlSession.data(for: request) { (result: Result<Data, Error>) in
-            let response = result.flatMap { data -> Result<ProfileResult, Error> in
-                Result {
-                    try decoder.decode(ProfileResult.self, from: data)
-                }
-            }
-            completion(response)
-        }
-    }
 }

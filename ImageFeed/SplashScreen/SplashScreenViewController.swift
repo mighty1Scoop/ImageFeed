@@ -11,14 +11,19 @@ import ProgressHUD
 class SplashScreenViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegue"
     
+    private let oauth2Storage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service.shared
-    private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
+    private var alertPresenter: AlertPresenterProtocol?
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if let token = oauth2TokenStorage.token {
+        if let token = oauth2Storage.token {
             profileService.fetchProfile(authToken: token) { [weak self] result in
                 guard let self else { return }
                 switch result {
@@ -32,10 +37,6 @@ class SplashScreenViewController: UIViewController {
         } else {
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
     }
     
     private func switchToTabBarController() {
@@ -67,7 +68,7 @@ extension SplashScreenViewController: AuthViewControllerDelegate {
         UIBlockingProgressHUD.show()
         dismiss(animated: true) { [weak self] in
             guard let self else { return }
-            self.fetchOAuthToken(code)
+            fetchOAuthToken(code)
         }
     }
     
@@ -80,6 +81,7 @@ extension SplashScreenViewController: AuthViewControllerDelegate {
                 UIBlockingProgressHUD.dismiss()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
+                showAlert()
                 break
             }
         }
@@ -91,13 +93,26 @@ extension SplashScreenViewController: AuthViewControllerDelegate {
             switch result {
             case .success(let profile):
                 UIBlockingProgressHUD.dismiss()
-                ProfileImageService.shared.fetchProfileImageURL(username: profile?.username ?? "") { _ in }
+                profileImageService.fetchProfileImageURL(username: profile?.username ?? "") { _ in }
                 self.switchToTabBarController()
             case .failure:
                 UIBlockingProgressHUD.dismiss()
-                // TODO [Sprint 11] Показать ошибку
-                break
+                showAlert()
             }
         }
+    }
+}
+
+
+private extension SplashScreenViewController {
+    func showAlert() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            buttonText: "Ок",
+            completion: {}
+        )
+        
+        alertPresenter?.showAlert(alertModel)
     }
 }
