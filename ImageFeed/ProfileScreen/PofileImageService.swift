@@ -8,25 +8,24 @@
 import Foundation
 
 final class ProfileImageService {
-    static let shared = ProfileImageService()
     static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let shared = ProfileImageService()
+    
     
     private (set) var avatarURL: URL?
     private let urlSession = URLSession.shared
     private let storage = OAuth2TokenStorage()
     private var task: URLSessionTask?
-
+    
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
         
-        guard let token = storage.token else {
-            assertionFailure("TOKEN IS NULL")
+        guard let request = urlRequestWithBearerToken(username: username) else {
             return
         }
         
-        let request = UnsplashApiRoutes.profileImageURLRequest(username: username, authToken: token)
         task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileImageResponseModel, Error>) in
             guard let self else { return }
             task = nil
@@ -35,7 +34,6 @@ final class ProfileImageService {
                 let profileImageURL = body.profileImages.medium
                 avatarURL = URL(string: profileImageURL)
                 completion(.success(profileImageURL))
-                
                 NotificationCenter.default
                     .post(name: ProfileImageService.DidChangeNotification,
                           object: self,
@@ -46,5 +44,14 @@ final class ProfileImageService {
             }
         }
         task?.resume()
+    }
+}
+
+private extension ProfileImageService {
+    func urlRequestWithBearerToken(username: String) -> URLRequest? {
+        URLRequest.makeHTTPRequest(
+            path: "/users/\(username)",
+            httpMethod: "GET",
+            baseURL: Constants.DefaultBaseURL)
     }
 }

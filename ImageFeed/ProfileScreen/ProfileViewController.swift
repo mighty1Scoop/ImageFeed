@@ -34,7 +34,6 @@ final class ProfileViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         guard let profile = profileService.profile else { return }
         setUp(with: profile)
         
@@ -42,17 +41,32 @@ final class ProfileViewController: UIViewController {
             forName: ProfileImageService.DidChangeNotification,
             object: nil,
             queue: .main
-        ) { [weak self] _ in
+        ) { [weak self] notification in
             guard let self else { return }
-            self.updateAvatar()
+            self.updateAvatar(notification: notification)
         }
-        updateAvatar()
+        if let url = profileImageService.avatarURL {
+            updateAvatar(url: url)
+        }
+    }
+    
+    @objc
+    private func updateAvatar(notification: Notification) {
+        guard
+            isViewLoaded,
+            let userInfo = notification.userInfo,
+            let profileImageURL = userInfo["URL"] as? String,
+            let url = URL(string: profileImageURL)
+        else { return }
+        updateAvatar(url: url)
     }
 }
 
 //MARK: ConfigureUI
 private extension ProfileViewController {
     func setUp(with profile: Profile) {
+        view.backgroundColor = .ypBlack
+        
         let mainContainerViews: [UIView] = [headerContainer, nameLabel, nicknameLabel,descriptionLabel]
         let headerContainerViews: [UIView] =
         [profileImage, exitButton]
@@ -75,8 +89,7 @@ private extension ProfileViewController {
 
     }
     
-    private func updateAvatar() {
-        guard let url = profileImageService.avatarURL else { return }
+    private func updateAvatar(url: URL) {
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profileImage.kf.indicatorType = .activity
         profileImage.kf.setImage(with: url, options: [.processor(processor)])

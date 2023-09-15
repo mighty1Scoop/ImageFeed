@@ -35,8 +35,7 @@ final class ProfileService {
         if profile != nil { return }
         task?.cancel()
         
-        var request = UnsplashApiRoutes.selfProfileRequest
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+        guard let request = makeHTTPReqeust() else { return }
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             guard let self else { return }
@@ -60,4 +59,10 @@ final class ProfileService {
         task.resume()
     }
     
+}
+
+extension ProfileService {
+    func makeHTTPReqeust() -> URLRequest? {
+        URLRequest.makeHTTPRequest(path: "/me")
+    }
 }

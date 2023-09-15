@@ -66,12 +66,12 @@ private extension WebViewViewController {
     }
     
     func loadWebView() {
-        var urlComponents = URLComponents(string: UnsplashAuthorizeURLString)
+        var urlComponents = URLComponents(string: Constants.UnsplashAuthorizeURLString)
         urlComponents?.queryItems = [
-            URLQueryItem(name: QueryKeys.clientId, value: AccessKey),
-            URLQueryItem(name: QueryKeys.redirectURI, value: RedirectURI),
+            URLQueryItem(name: QueryKeys.clientId, value: Constants.AccessKey),
+            URLQueryItem(name: QueryKeys.redirectURI, value: Constants.RedirectURI),
             URLQueryItem(name: QueryKeys.responseType, value: "code"),
-            URLQueryItem(name: QueryKeys.accessScope, value: AccessScope)
+            URLQueryItem(name: QueryKeys.accessScope, value: Constants.AccessScope)
         ]
         
         if let url = urlComponents?.url {

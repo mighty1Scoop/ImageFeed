@@ -20,7 +20,7 @@ final class OAuth2Service {
             tokenStorage.token
         }
         set {
-           tokenStorage.token = newValue
+            tokenStorage.token = newValue
         }
     }
     
@@ -35,7 +35,7 @@ final class OAuth2Service {
         task?.cancel()
         lastCode = code
         
-        let request: URLRequest = UnsplashApiRoutes.authTokenRequest(code: code)
+        guard let request = authTokenRequest(code: code) else { return }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>)  in
             guard let self else { return }
             switch result {
@@ -50,3 +50,17 @@ final class OAuth2Service {
         task.resume()
     }
 }
+
+private extension OAuth2Service {
+    func authTokenRequest(code: String) -> URLRequest? {
+        URLRequest.makeHTTPRequest(
+            path: "/oauth/token"
+            + "?client_id=\(Constants.AccessKey)"
+            + "&&client_secret=\(Constants.SecretKey)"
+            + "&&redirect_uri=\(Constants.RedirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            httpMethod: "POST",
+            baseURL: Constants.DefaultURL
+        )
+    }}
