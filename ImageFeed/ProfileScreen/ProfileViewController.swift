@@ -38,7 +38,7 @@ final class ProfileViewController: UIViewController {
         setUp(with: profile)
         
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] notification in

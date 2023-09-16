@@ -8,7 +8,7 @@
 import Foundation
 
 final class ProfileImageService {
-    static let DidChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     static let shared = ProfileImageService()
     
     
@@ -35,7 +35,7 @@ final class ProfileImageService {
                 avatarURL = URL(string: profileImageURL)
                 completion(.success(profileImageURL))
                 NotificationCenter.default
-                    .post(name: ProfileImageService.DidChangeNotification,
+                    .post(name: ProfileImageService.didChangeNotification,
                           object: self,
                           userInfo: ["URL": profileImageURL]
                     )

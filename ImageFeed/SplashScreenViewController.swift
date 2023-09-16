@@ -69,7 +69,8 @@ class SplashScreenViewController: UIViewController {
     }
     
     private func switchToTabBarController() {
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration")
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration")
         }
         
         let tabBarController = UIStoryboard(
@@ -98,10 +99,7 @@ extension SplashScreenViewController {
 extension SplashScreenViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         UIBlockingProgressHUD.show()
-        dismiss(animated: true) { [weak self] in
-            guard let self else { return }
-            fetchOAuthToken(code)
-        }
+        fetchOAuthToken(code)
     }
     
     private func fetchOAuthToken(_ code: String) {
