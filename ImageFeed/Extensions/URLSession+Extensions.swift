@@ -49,6 +49,7 @@ extension URLSession {
         completion: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         return data(for: request) { (result: Result<Data, Error>) in
             let response = result.flatMap { data -> Result<T, Error> in
                 Result {

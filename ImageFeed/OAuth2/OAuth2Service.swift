@@ -60,7 +60,7 @@ private extension OAuth2Service {
             + "&&redirect_uri=\(Constants.RedirectURI)"
             + "&&code=\(code)"
             + "&&grant_type=authorization_code",
-            httpMethod: "POST",
+            httpMethod: .POST,
             baseURL: Constants.DefaultURL
         )
     }}

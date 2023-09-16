@@ -13,11 +13,11 @@ struct ProfileResult: Decodable {
     let lastName: String?
     let bio: String?
     
-    enum CodingKeys: String, CodingKey {
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case username, bio
-    }
+//    enum CodingKeys: String, CodingKey {
+//        case firstName = "first_name"
+//        case lastName = "last_name"
+//        case username, bio
+//    }
     
 }
 
@@ -63,6 +63,6 @@ final class ProfileService {
 
 extension ProfileService {
     func makeHTTPReqeust() -> URLRequest? {
-        URLRequest.makeHTTPRequest(path: "/me")
+        URLRequest.makeHTTPRequest(path: "/me", httpMethod: .GET)
     }
 }

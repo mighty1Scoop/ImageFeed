@@ -31,7 +31,7 @@ final class ProfileImageService {
             task = nil
             switch result {
             case .success(let body):
-                let profileImageURL = body.profileImages.medium
+                let profileImageURL = body.profileImage.medium
                 avatarURL = URL(string: profileImageURL)
                 completion(.success(profileImageURL))
                 NotificationCenter.default
@@ -51,7 +51,7 @@ private extension ProfileImageService {
     func urlRequestWithBearerToken(username: String) -> URLRequest? {
         URLRequest.makeHTTPRequest(
             path: "/users/\(username)",
-            httpMethod: "GET",
-            baseURL: Constants.DefaultBaseURL)
+            httpMethod: .GET
+        )
     }
 }

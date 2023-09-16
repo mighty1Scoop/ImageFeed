@@ -12,6 +12,7 @@ class SplashScreenViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegue"
     private let authViewControllerIdentifier = "AuthViewController"
     private let tabBarControllerIdentifier = "TabBarViewController"
+    
     private let oauth2Storage = OAuth2TokenStorage()
     private let oauth2Service = OAuth2Service.shared
     private let profileService = ProfileService.shared
@@ -22,14 +23,12 @@ class SplashScreenViewController: UIViewController {
         .lightContent
     }
     
-    
     private var logoImageView: UIImageView = {
         let logoImage = UIImage(named: "launch_screen_logo")
         let logoImageView = UIImageView(image: logoImage)
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         return logoImageView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,13 +39,16 @@ class SplashScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = oauth2Storage.token {
+            UIBlockingProgressHUD.show()
             profileService.fetchProfile(authToken: token) { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(let profile):
                     ProfileImageService.shared.fetchProfileImageURL(username: profile?.username ?? "") { _ in }
                     switchToTabBarController()
+                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
+                    UIBlockingProgressHUD.dismiss()
                     showAlert()
                     print("\(error)")
                 }
