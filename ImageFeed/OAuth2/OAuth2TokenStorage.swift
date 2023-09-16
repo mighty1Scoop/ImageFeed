@@ -27,6 +27,7 @@ final class OAuth2TokenStorage {
     }
     
     func removeToken() {
+        token = nil
         keyChainWrapper.removeObject(forKey: Keys.accessToken.rawValue)
     }
 }

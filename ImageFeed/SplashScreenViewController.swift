@@ -39,14 +39,12 @@ class SplashScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = oauth2Storage.token {
-            UIBlockingProgressHUD.show()
             profileService.fetchProfile(authToken: token) { [weak self] result in
                 guard let self else { return }
                 switch result {
                 case .success(let profile):
                     ProfileImageService.shared.fetchProfileImageURL(username: profile?.username ?? "") { _ in }
                     switchToTabBarController()
-                    UIBlockingProgressHUD.dismiss()
                 case .failure(let error):
                     UIBlockingProgressHUD.dismiss()
                     showAlert()

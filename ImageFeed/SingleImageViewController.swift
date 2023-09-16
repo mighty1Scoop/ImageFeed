@@ -6,16 +6,14 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
     //MARK: - Properties
-    var image: UIImage! {
-        didSet {
-            guard isViewLoaded else { return }
-            imageView.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    private var image: UIImage?
+    private var alertPresenter: AlertPresenterProtocol?
+    
+    var fullScreenImageURL: String?
     
     //MARK: - IBOutlets
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -24,12 +22,14 @@ final class SingleImageViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.image = image
+        alertPresenter = AlertPresenter(viewController: self)
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        
-        rescaleAndCenterImageInScrollView(image: image)
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showFullScreenImage()
     }
     
     //MARK: - IBActions
@@ -65,10 +65,42 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
+    private func showFullScreenImage() {
+        guard let url = URL(string: fullScreenImageURL ?? "") else { return }
+        UIBlockingProgressHUD.show()
+        imageView?.kf.setImage(with: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let imageResult):
+                UIBlockingProgressHUD.dismiss()
+                self.image = imageResult.image
+                self.rescaleAndCenterImageInScrollView(image: imageResult.image)
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+                self.showAlert()
+            }
+        }
+    }
 }
+
 
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
+    }
+}
+
+
+private extension SingleImageViewController {
+    func showAlert() {
+        let alertModel = AlertModel(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            buttonText: "Повторить",
+            completion: {
+                self.showFullScreenImage()
+            }
+        )
+        self.alertPresenter?.showAlert(alertModel)
     }
 }

@@ -120,7 +120,6 @@ private extension ProfileViewController {
         headerContainer.distribution = .equalSpacing
         headerContainer.alignment = .center
         headerContainer.spacing = 0
-        
     }
     
     func configureProfileImage() {
@@ -140,7 +139,7 @@ private extension ProfileViewController {
     func configureExitButton() {
         let exitButtonImage = UIImage(named: "ExitImage")
         exitButton.setImage(exitButtonImage, for: .normal)
-        
+        exitButton.addTarget(self, action: #selector(didExitButtonTapped), for: .touchUpInside)
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate(
@@ -167,6 +166,14 @@ private extension ProfileViewController {
         descriptionLabel.text = description
         descriptionLabel.textColor = .ypWhite
         descriptionLabel.font = .systemFont(ofSize: 13)
+    }
+    
+    @objc
+    func didExitButtonTapped() {
+        Helpers.cleanCoockies()
+        OAuth2TokenStorage.shared.removeToken()
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration of splashViewController") }
+        window.rootViewController = SplashScreenViewController()
     }
 }
 

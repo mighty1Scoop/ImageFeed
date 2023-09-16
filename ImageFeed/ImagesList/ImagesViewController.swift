@@ -12,23 +12,16 @@ class ImagesViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     //MARK: - Private properties
-    private let imageListService = ImagesListService.shared
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
-    private var photos: [Photo] = []
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
-    }()
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    
+    private let imageListService = ImagesListService.shared
+    private let service = ImagesListService.shared
+    private var photos: [Photo] = []
+
     //MARK: - Properties
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    private let service = ImagesListService.shared
-    
+
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +30,14 @@ class ImagesViewController: UIViewController {
         tableView.dataSource = self
         tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
         
+        UIBlockingProgressHUD.show()
+        
         NotificationCenter.default.addObserver(
             forName: ImagesListService.didChangeNotification,
             object: nil,
             queue: .main) { _ in
                 self.updateTableViewAnimated()
+                UIBlockingProgressHUD.dismiss()
             }
         imageListService.fetchPhotosNextPage()
     }
@@ -52,9 +48,8 @@ class ImagesViewController: UIViewController {
                 let viewController = segue.destination as? SingleImageViewController,
                 let indexPath = sender as? IndexPath
             {
-                let imageName = photosName[indexPath.row]
-                let image = UIImage(named: "\(imageName)_full_size") ?? UIImage(named: imageName)
-                viewController.image = image
+                let imageUrl = photos[indexPath.row]
+                viewController.fullScreenImageURL = imageUrl.largeImageURL
             } else {
                 super.prepare(for: segue, sender: sender)
             }
@@ -100,7 +95,7 @@ extension ImagesViewController: UITableViewDataSource {
         guard let imageListCell = cell as? ImagesListCell else {
             return UITableViewCell()
         }
-        
+        imageListCell.delegate = self
         imageListCell.configure(with: photos[indexPath.row]) { result in
             switch result {
             case.success(_):
@@ -113,6 +108,27 @@ extension ImagesViewController: UITableViewDataSource {
         return imageListCell
         }
     }
+
+extension ImagesViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imageListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            guard let self else { return }
+            switch result {
+            case .success():
+                self.photos = imageListService.photos
+                cell.changeLikeImage()
+                self.tableView.reloadRows(at: [indexPath], with: .none)
+                UIBlockingProgressHUD.dismiss()
+            case .failure(let error):
+                print("\(error)")
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
+    }
+}
 
 private extension ImagesViewController {
     func updateTableViewAnimated() {

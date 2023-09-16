@@ -32,7 +32,6 @@ final class ProfileService {
     
     func fetchProfile(authToken: String, completion: @escaping (Result<Profile?, Error>) -> Void) {
         assert(Thread.isMainThread)
-        if profile != nil { return }
         task?.cancel()
         
         guard let request = makeHTTPReqeust() else { return }
