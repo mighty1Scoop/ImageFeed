@@ -45,10 +45,9 @@ extension ImagesListCell {
         selectionStyle = .none
         configurateCellImage(with: photo, completion: completion)
         configurePhotoLikeButton(photo)
-        dateLabel.text = photo.createdAt ?? ""
+        configureDateLabel(with: photo)
     }
-    
-    func changeLikeImage() {
+    func updateLikeImage() {
         likeButton.setImage(getLikeImage(), for: .normal)
     }
     
@@ -56,10 +55,12 @@ extension ImagesListCell {
 
 private extension ImagesListCell {
     func configurePhotoLikeButton(_ photo: Photo) {
-        isLiked = photo.isLiked
-        let likeImage = getLikeImage()
-        
-        likeButton.setImage(likeImage, for: .normal)
+        self.isLiked = photo.isLiked
+        likeButton.setImage(getLikeImage(), for: .normal)
+    }
+    
+    func configureDateLabel(with photo: Photo) {
+        dateLabel.text = photo.createdAt ?? ""
     }
     
     func configurateCellImage(with photo: Photo, completion: @escaping (Result<Void, Error>) -> Void) {

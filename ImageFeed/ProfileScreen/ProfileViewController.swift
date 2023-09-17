@@ -13,6 +13,7 @@ final class ProfileViewController: UIViewController {
     //MARK: - Private arguments
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private var alertPresenter: AlertPresenterProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
     
     //MARK: - UIElements
@@ -34,9 +35,10 @@ final class ProfileViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        alertPresenter = AlertPresenter(viewController: self)
         guard let profile = profileService.profile else { return }
-        setUp(with: profile)
         
+        setUp(with: profile)
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
@@ -170,10 +172,31 @@ private extension ProfileViewController {
     
     @objc
     func didExitButtonTapped() {
-        Helpers.cleanCoockies()
-        OAuth2TokenStorage.shared.removeToken()
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration of splashViewController") }
-        window.rootViewController = SplashScreenViewController()
+        showExitAlert()
     }
 }
 
+private extension ProfileViewController {
+    func showExitAlert() {
+            let model = AlertModel(
+                title: "Пока, пока!",
+                message: "Уверены что хотите выйти?",
+                firstButtonText: "Да",
+                secondButtonText: "Нет",
+                firstButtonCompletion: { [weak self] in
+                    guard let self else { return }
+                    OAuth2TokenStorage.shared.removeToken()
+                    Helpers.cleanCoockies()
+                    self.switchToSplashViewController()
+                },
+                secondButtonCompletion: { })
+            self.alertPresenter?.showAlert(model)
+        }
+    
+    func switchToSplashViewController() {
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration of splashViewController")
+        }
+        window.rootViewController = SplashScreenViewController()
+    }
+}

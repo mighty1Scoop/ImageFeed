@@ -138,10 +138,12 @@ extension SplashScreenViewController: AuthViewControllerDelegate {
 private extension SplashScreenViewController {
     func showAlert() {
         let alertModel = AlertModel(
-            title: "Что-то пошло не так",
-            message: "Не удалось войти в систему",
-            buttonText: "Ок",
-            completion: {}
+                title: "Что-то пошло не так(",
+                message: "Не удалось войти в систему",
+                firstButtonText: "OK",
+                secondButtonText: nil,
+                firstButtonCompletion: {},
+                secondButtonCompletion: {}
         )
         
         self.alertPresenter?.showAlert(alertModel)

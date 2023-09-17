@@ -94,13 +94,14 @@ extension SingleImageViewController: UIScrollViewDelegate {
 private extension SingleImageViewController {
     func showAlert() {
         let alertModel = AlertModel(
-            title: "Что-то пошло не так",
-            message: "Не удалось войти в систему",
-            buttonText: "Повторить",
-            completion: {
+            title: "Что-то пошло не так(",
+            message: "Попробовать еще раз?",
+            firstButtonText: "Повторить",
+            secondButtonText: "Не надо",
+            firstButtonCompletion: {
                 self.showFullScreenImage()
-            }
-        )
+            },
+            secondButtonCompletion: {})
         self.alertPresenter?.showAlert(alertModel)
     }
 }

@@ -119,7 +119,7 @@ extension ImagesViewController: ImagesListCellDelegate {
             switch result {
             case .success():
                 self.photos = imageListService.photos
-                cell.changeLikeImage()
+                cell.updateLikeImage()
                 self.tableView.reloadRows(at: [indexPath], with: .none)
                 UIBlockingProgressHUD.dismiss()
             case .failure(let error):
