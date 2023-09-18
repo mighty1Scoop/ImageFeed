@@ -21,7 +21,7 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet private weak var cellImage: UIImageView?
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var likeButton: UIButton!
-    @IBOutlet private var gradientImageView: UIImageView!
+    @IBOutlet private weak var gradientImageView: UIImageView!
     
     override func layoutSubviews() {
         gradientImageView.layer.sublayers = nil
@@ -37,7 +37,6 @@ final class ImagesListCell: UITableViewCell {
     @IBAction private func likeButtonClicked() {
         delegate?.imageListCellDidTapLike(self)
     }
-    
 }
 
 extension ImagesListCell {
@@ -47,10 +46,10 @@ extension ImagesListCell {
         configurePhotoLikeButton(photo)
         configureDateLabel(with: photo)
     }
+    
     func updateLikeImage() {
         likeButton.setImage(getLikeImage(), for: .normal)
     }
-    
 }
 
 private extension ImagesListCell {
@@ -77,31 +76,31 @@ private extension ImagesListCell {
         }
         cellImage?.kf.setImage(with: url, placeholder: placeholder, completionHandler: (
             { result in
-            switch result {
-            case .success(_):
-                completion(.success(()))
-            case.failure(let error):
-                completion(.failure(error))
-            }
-        }))
+                switch result {
+                case .success(_):
+                    completion(.success(()))
+                case.failure(let error):
+                    completion(.failure(error))
+                }
+            }))
     }
     
     func setupGradient() {
-         let height = gradientImageView.bounds.height
-         let width = gradientImageView.bounds.width
-         
-         let colorTop = UIColor.ypBlack.withAlphaComponent(0.0).cgColor
-         let colorBottom = UIColor.ypBlack.withAlphaComponent(0.4).cgColor
-         
-         let gradient = CAGradientLayer()
-         gradient.frame = CGRect(x:0, y:0, width: width, height: height)
-         gradient.colors = [colorTop, colorBottom]
-         gradient.locations = [0, 1]
-         gradient.startPoint = CGPoint(x: 0.5, y: 0)
-         gradient.endPoint = CGPoint(x: 0.5, y: 1)
-         gradientImageView.layer.addSublayer(gradient)
-     }
-     
+        let height = gradientImageView.bounds.height
+        let width = gradientImageView.bounds.width
+        
+        let colorTop = UIColor.ypBlack.withAlphaComponent(0.0).cgColor
+        let colorBottom = UIColor.ypBlack.withAlphaComponent(0.4).cgColor
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = CGRect(x:0, y:0, width: width, height: height)
+        gradient.colors = [colorTop, colorBottom]
+        gradient.locations = [0, 1]
+        gradient.startPoint = CGPoint(x: 0.5, y: 0)
+        gradient.endPoint = CGPoint(x: 0.5, y: 1)
+        gradientImageView.layer.addSublayer(gradient)
+    }
+    
     func getLikeImage() -> UIImage? {
         return isLiked ? UIImage(named: "like_button_on") : UIImage(named: "like_button_off")
     }

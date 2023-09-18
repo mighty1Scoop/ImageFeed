@@ -83,13 +83,11 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
-
 extension SingleImageViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         imageView
     }
 }
-
 
 private extension SingleImageViewController {
     func showAlert() {

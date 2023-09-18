@@ -8,7 +8,7 @@
 import UIKit
 import ProgressHUD
 
-class SplashScreenViewController: UIViewController {
+final class SplashScreenViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreenSegue"
     private let authViewControllerIdentifier = "AuthViewController"
     private let tabBarControllerIdentifier = "TabBarViewController"
