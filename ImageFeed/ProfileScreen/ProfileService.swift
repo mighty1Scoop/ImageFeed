@@ -21,10 +21,14 @@ struct ProfileResult: Decodable {
     
 }
 
-final class ProfileService {
+protocol ProfileServiceProtocol {
+    var profile: Profile? { get }
+    func fetchProfile(authToken: String, completion: @escaping (Result<Profile?, Error>) -> Void)
+}
+
+final class ProfileService: ProfileServiceProtocol {
     static let shared = ProfileService()
     private(set) var profile: Profile?
-    private var lastToken: String = ""
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     

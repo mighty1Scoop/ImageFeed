@@ -8,16 +8,23 @@
 import UIKit
 import Kingfisher
 
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func setup(with profile: Profile)
+    func updateAvatar(url: URL)
+}
 
-final class ProfileViewController: UIViewController {
-    //MARK: - Private arguments
+final class ProfileViewController: ProfileViewControllerProtocol & UIViewController {
+    // MARK: - Properties
     
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
+    var presenter: ProfilePresenterProtocol?
+    
+    // MARK: - Private arguments
+    
     private var alertPresenter: AlertPresenterProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
     
-    //MARK: - UIElements
+    // MARK: - UIElements
     
     private let mainContainer = UIStackView()
     
@@ -29,58 +36,25 @@ final class ProfileViewController: UIViewController {
     private let nicknameLabel = UILabel()
     private let descriptionLabel = UILabel()
     
-    //MARK: - Status bar
+    // MARK: - Status bar
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
-    //MARK: - Lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         alertPresenter = AlertPresenter(viewController: self)
-        guard let profile = profileService.profile else { return }
         
-        setUp(with: profile)
+        presenter?.viewDidLoad()
         addProfileImageServiceObserver()
-        if let url = profileImageService.avatarURL {
-            updateAvatar(url: url)
-        }
     }
     
-    @objc
-    private func updateAvatar(notification: Notification) {
-        guard
-            isViewLoaded,
-            let userInfo = notification.userInfo,
-            let profileImageURL = userInfo["URL"] as? String,
-            let url = URL(string: profileImageURL)
-        else { return }
-        updateAvatar(url: url)
-    }
-}
-
-// MARK: - Private Methods
-
-private extension ProfileViewController {
-    func addProfileImageServiceObserver() {
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            guard let self else { return }
-            self.updateAvatar(notification: notification)
-        }
-    }
-}
-
-
-//MARK: - ConfigureUI
-
-private extension ProfileViewController {
-    func setUp(with profile: Profile) {
+    // MARK: - Public Methods
+    
+    func setup(with profile: Profile) {
         view.backgroundColor = .ypBlack
         
         let mainContainerViews: [UIView] = [headerContainer, nameLabel, nicknameLabel,descriptionLabel]
@@ -102,16 +76,46 @@ private extension ProfileViewController {
         configureNameLabel(with: profile.name)
         configureNicknameLabel(with: profile.loginName)
         configureDescriptionLabel(with: profile.bio)
-
     }
     
-    private func updateAvatar(url: URL) {
+    func updateAvatar(url: URL) {
         let processor = RoundCornerImageProcessor(cornerRadius: 61)
         profileImage.kf.indicatorType = .activity
         profileImage.kf.setImage(with: url, options: [.processor(processor)])
         profileImage.layer.cornerRadius = 35
         profileImage.layer.masksToBounds = true
     }
+}
+
+// MARK: - Private Methods
+
+private extension ProfileViewController {
+    func addProfileImageServiceObserver() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let self else { return }
+            self.updateAvatar(notification: notification)
+        }
+    }
+    
+    @objc
+    func updateAvatar(notification: Notification) {
+        guard
+            isViewLoaded,
+            let userInfo = notification.userInfo,
+            let profileImageURL = userInfo["URL"] as? String,
+            let url = URL(string: profileImageURL)
+        else { return }
+        updateAvatar(url: url)
+    }
+}
+
+//MARK: - ConfigureUI
+
+private extension ProfileViewController {
 
     func configureMainContainer() {
         view.addSubview(mainContainer)
@@ -167,6 +171,7 @@ private extension ProfileViewController {
     }
     
     func configureNameLabel(with name: String) {
+        nameLabel.numberOfLines = 0
         nameLabel.text = name
         nameLabel.textColor = .ypWhite
         nameLabel.font = .boldSystemFont(ofSize: 23)
@@ -184,11 +189,15 @@ private extension ProfileViewController {
         descriptionLabel.font = .systemFont(ofSize: 13)
     }
     
+    // MARK: - Actions
+    
     @objc
     func didExitButtonTapped() {
         showExitAlert()
     }
 }
+
+// MARK: Alert
 
 private extension ProfileViewController {
     func showExitAlert() {
