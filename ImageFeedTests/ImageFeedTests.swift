@@ -18,3 +18,5 @@ final class ImagesListServiceTests: XCTestCase {
         XCTAssertEqual(service.photos.count, 10)
     }
 }
+
+

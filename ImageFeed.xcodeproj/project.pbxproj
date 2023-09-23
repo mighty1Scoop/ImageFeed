@@ -29,6 +29,9 @@
 		24729E3D2A922E3400FA5801 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24729E3C2A922E3400FA5801 /* UIBlockingProgressHUD.swift */; };
 		24729E402A923CE900FA5801 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24729E3F2A923CE900FA5801 /* ProfileService.swift */; };
 		24729E422A92408E00FA5801 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24729E412A92408E00FA5801 /* ProfileViewModel.swift */; };
+		24923E352ABEF17F00914E4D /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24923E342ABEF17F00914E4D /* WebViewPresenter.swift */; };
+		24923E372ABEFE0000914E4D /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24923E362ABEFE0000914E4D /* AuthHelper.swift */; };
+		24923E392ABF01C200914E4D /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24923E382ABF01C200914E4D /* WebViewTests.swift */; };
 		24B547A82A85677D00031344 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 24B547A72A85677D00031344 /* ProgressHUD */; };
 		24DD23192AB5EC67005CD3E9 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DD23182AB5EC67005CD3E9 /* ImagesListService.swift */; };
 		24DD231B2AB5F0A9005CD3E9 /* PhotoResultResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DD231A2AB5F0A9005CD3E9 /* PhotoResultResponseModel.swift */; };
@@ -80,6 +83,9 @@
 		24729E3C2A922E3400FA5801 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		24729E3F2A923CE900FA5801 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		24729E412A92408E00FA5801 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		24923E342ABEF17F00914E4D /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
+		24923E362ABEFE0000914E4D /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
+		24923E382ABF01C200914E4D /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		24DD23182AB5EC67005CD3E9 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		24DD231A2AB5F0A9005CD3E9 /* PhotoResultResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResultResponseModel.swift; sourceTree = "<group>"; };
 		24DD231C2AB5F9A8005CD3E9 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
@@ -183,6 +189,8 @@
 			children = (
 				245097CC2A729BF00073B311 /* AuthViewController.swift */,
 				245097CE2A72A9A50073B311 /* WebViewController.swift */,
+				24923E342ABEF17F00914E4D /* WebViewPresenter.swift */,
+				24923E362ABEFE0000914E4D /* AuthHelper.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -230,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				24DD23242AB60654005CD3E9 /* ImageFeedTests.swift */,
+				24923E382ABF01C200914E4D /* WebViewTests.swift */,
 			);
 			path = ImageFeedTests;
 			sourceTree = "<group>";
@@ -374,6 +383,7 @@
 				245097CF2A72A9A50073B311 /* WebViewController.swift in Sources */,
 				2461079A2AB6539000161916 /* Helpers.swift in Sources */,
 				24EFD65B2A82916100FFA2E8 /* OAuth2Service.swift in Sources */,
+				24923E352ABEF17F00914E4D /* WebViewPresenter.swift in Sources */,
 				24DD232C2AB631BE005CD3E9 /* PhotoViewModel.swift in Sources */,
 				246B78652A9279A300F5334A /* AlertPresenter.swift in Sources */,
 				246F0B582AB4C64500E43625 /* TabBarController.swift in Sources */,
@@ -392,6 +402,7 @@
 				24DD231B2AB5F0A9005CD3E9 /* PhotoResultResponseModel.swift in Sources */,
 				245097CA2A7284FC0073B311 /* Constants.swift in Sources */,
 				24729E3D2A922E3400FA5801 /* UIBlockingProgressHUD.swift in Sources */,
+				24923E372ABEFE0000914E4D /* AuthHelper.swift in Sources */,
 				2419F3482A99DEAA00465EF4 /* ProfileImageResponseModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				24DD23252AB60654005CD3E9 /* ImageFeedTests.swift in Sources */,
+				24923E392ABF01C200914E4D /* WebViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

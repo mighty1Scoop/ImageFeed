@@ -11,12 +11,14 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     //MARK: - Private arguments
+    
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private var alertPresenter: AlertPresenterProtocol?
     private var profileImageServiceObserver: NSObjectProtocol?
     
     //MARK: - UIElements
+    
     private let mainContainer = UIStackView()
     
     private let headerContainer = UIStackView()
@@ -28,25 +30,20 @@ final class ProfileViewController: UIViewController {
     private let descriptionLabel = UILabel()
     
     //MARK: - Status bar
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     
     //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         alertPresenter = AlertPresenter(viewController: self)
         guard let profile = profileService.profile else { return }
         
         setUp(with: profile)
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.didChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] notification in
-            guard let self else { return }
-            self.updateAvatar(notification: notification)
-        }
+        addProfileImageServiceObserver()
         if let url = profileImageService.avatarURL {
             updateAvatar(url: url)
         }
@@ -64,7 +61,24 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-//MARK: ConfigureUI
+// MARK: - Private Methods
+
+private extension ProfileViewController {
+    func addProfileImageServiceObserver() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let self else { return }
+            self.updateAvatar(notification: notification)
+        }
+    }
+}
+
+
+//MARK: - ConfigureUI
+
 private extension ProfileViewController {
     func setUp(with profile: Profile) {
         view.backgroundColor = .ypBlack
