@@ -10,13 +10,12 @@ import Foundation
 protocol ImagesListPresenterProtocol: AnyObject, ImagesListCellDelegate {
     var view: ImagesViewControllerProtocol? { get set }
     var photos: [Photo] { get }
-    func viewDidLoad()
     func fetchPhotosNextPage()
-    func updateTableViewAnimated()
+    func updateTableView()
 }
 
 final class ImagesListPresenter: ImagesListPresenterProtocol {
- 
+
     // MARK: - Properties
     
     weak var view: ImagesViewControllerProtocol?
@@ -24,20 +23,19 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
     
     // MARK: - Private Properties
     
-    private let imageListService = ImagesListService.shared
-    private let service = ImagesListService.shared
+    private let imageListService: ImageListServiceProtocol
     
     // MARK: - Public Methods
     
-    func viewDidLoad() {
-        
+    init(imageListService: ImageListServiceProtocol = ImagesListService.shared) {
+        self.imageListService = imageListService
     }
     
     func fetchPhotosNextPage() {
         imageListService.fetchPhotosNextPage()
     }
     
-    func updateTableViewAnimated() {
+    func updateTableView() {
         let oldCount = photos.count
         let newCount = imageListService.photos.count
         photos = imageListService.photos

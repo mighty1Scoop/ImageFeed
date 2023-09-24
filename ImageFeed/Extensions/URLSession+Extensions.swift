@@ -7,6 +7,8 @@
 
 import Foundation
 
+var countTasks = 0
+
 enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
@@ -14,12 +16,15 @@ enum NetworkError: Error {
 }
 
 extension URLSession {
+
     func data(
         for request: URLRequest,
         complition: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionTask {
         let fulfillCompletion: (Result<Data, Error>) -> Void = { result in
             DispatchQueue.main.async {
+                countTasks += 1
+                print("🔴\(countTasks)")
                 complition(result)
             }
         }

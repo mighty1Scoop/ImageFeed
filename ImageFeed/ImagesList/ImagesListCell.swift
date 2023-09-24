@@ -54,6 +54,7 @@ extension ImagesListCell {
 
 private extension ImagesListCell {
     func configurePhotoLikeButton(_ photo: Photo) {
+        likeButton.accessibilityLabel = "LikeButton"
         self.isLiked = photo.isLiked
         likeButton.setImage(getLikeImage(), for: .normal)
     }

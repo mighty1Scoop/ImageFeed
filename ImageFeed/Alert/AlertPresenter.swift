@@ -38,15 +38,17 @@ final class AlertPresenter: AlertPresenterProtocol {
             style: .default) { _ in
             model.firstButtonCompletion()
         }
+        alert.addAction(action)
         
-        let secondAction = UIAlertAction(
-            title: model.secondButtonText,
-            style: .default) { _ in
+        if let secondButtonText = model.secondButtonText {
+            let secondAction = UIAlertAction(
+                title: secondButtonText,
+                style: .default) { _ in
                 model.secondButtonCompletion()
+            }
+            alert.addAction(secondAction)
         }
         
-        alert.addAction(action)
-        alert.addAction(secondAction)
         topVC.present(alert, animated: true)
     }
 }

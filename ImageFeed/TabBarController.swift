@@ -22,10 +22,10 @@ class TabBarController: UITabBarController {
         // Do any additional setup after loading the view.
     }
     
-    private func setupImagesListViewController() -> ImagesViewController {
+    private func setupImagesListViewController() -> ImagesListViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let presenter = ImagesListPresenter()
-        let viewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as! ImagesViewController
+        let viewController = storyboard.instantiateViewController(withIdentifier: "ImagesListViewController") as! ImagesListViewController
         viewController.presenter = presenter
         presenter.view = viewController
         

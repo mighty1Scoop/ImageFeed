@@ -44,6 +44,7 @@ final class AuthViewController: UIViewController {
 
 private extension AuthViewController {
     func configureSignInButton() {
+        signInButton.accessibilityIdentifier = "Authenticate"
         signInButton.titleLabel?.font = .boldSystemFont(ofSize: 17)
         signInButton.layer.cornerRadius = 16
         signInButton.layer.masksToBounds = true

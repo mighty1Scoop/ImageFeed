@@ -158,6 +158,7 @@ private extension ProfileViewController {
     
     func configureExitButton() {
         let exitButtonImage = UIImage(named: "ExitImage")
+        exitButtonImage?.accessibilityIdentifier = "ExitButton"
         exitButton.setImage(exitButtonImage, for: .normal)
         exitButton.addTarget(self, action: #selector(didExitButtonTapped), for: .touchUpInside)
         exitButton.translatesAutoresizingMaskIntoConstraints = false

@@ -7,8 +7,14 @@
 
 import Foundation
 
-let AccessKey = "_e5yZfIub46_bDk9EjLOFgA5q6clA3jpGYU2lJbh0gA"
-let SecretKey = "NX6GVxfgbMnx3ffCpnrwH_GcXTcu9fHT3afpUQI9eFM"
+//let AccessKey = "jcx8QRPzoEuH3hBa1gvsLQMMvtoAP2t05MAGldh2Bw4"
+let AccessKey = "2-qU9Ie3wyNwZfQPwXMFef1eshJu3LU7ahnhOCesqso"
+//let AccessKey = "80_PFz_48eNJj9XwAqpmNLnUXSrS5Uq-5O1Ll_lpyGc"
+
+//let SecretKey = "nKFpl3vnBE6ZLmUU94P646oFRs76bYN8wKZwCymsG3s"
+let SecretKey = "3IRlengpaPK6_QY84o_kF2aAe3OrrKqQj3hfnRxIclc"
+//let SecretKey = "EdvLq7rjn8SUIQEIjPFNPoLLS4IWxkg6penbqagOH64"
+
 let RedirectURI = "urn:ietf:wg:oauth:2.0:oob"
 let AccessScope = "public+read_user+write_likes"
 

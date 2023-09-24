@@ -14,7 +14,7 @@ protocol ImagesViewControllerProtocol: AnyObject {
     func reloadRows(at indexPath: [IndexPath])
 }
 
-final class ImagesViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     // MARK: - Properties
     
     var presenter: ImagesListPresenterProtocol!
@@ -63,9 +63,9 @@ final class ImagesViewController: UIViewController {
     
     private func configureTableView() {
         UIBlockingProgressHUD.show()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView?.delegate = self
+        tableView?.dataSource = self
+        tableView?.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
     }
     
     private func updateTableViewObserver() {
@@ -74,14 +74,14 @@ final class ImagesViewController: UIViewController {
             object: nil,
             queue: .main
         ) { _ in
-            self.presenter.updateTableViewAnimated()
+            self.presenter.updateTableView()
             UIBlockingProgressHUD.dismiss()
         }
     }
 }
 
 // MARK: - UITableViewDelegate
-extension ImagesViewController: UITableViewDelegate {
+extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
     }
@@ -106,7 +106,7 @@ extension ImagesViewController: UITableViewDelegate {
 }
 
 // MARK: - UITableViewDataSource
-extension ImagesViewController: UITableViewDataSource {
+extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.photos.count
     }
@@ -132,7 +132,7 @@ extension ImagesViewController: UITableViewDataSource {
 }
 
 // MARK: - ImagesViewControllerProtocol
-extension ImagesViewController: ImagesViewControllerProtocol {
+extension ImagesListViewController: ImagesViewControllerProtocol {
     func insertRows(oldCount: Int, newCount: Int) {
         tableView.performBatchUpdates {
             let indexPaths = (oldCount..<newCount).map{ i in
