@@ -10,7 +10,8 @@ import Foundation
 protocol ImagesListPresenterProtocol: AnyObject, ImagesListCellDelegate {
     var view: ImagesViewControllerProtocol? { get set }
     var photos: [Photo] { get }
-    func fetchPhotosNextPage()
+    func fetchPhotos()
+    func fetchPhotosNextPageIfNeeded(indexPath: IndexPath)
     func updateTableView()
 }
 
@@ -31,8 +32,13 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
         self.imageListService = imageListService
     }
     
-    func fetchPhotosNextPage() {
+    func fetchPhotos() {
         imageListService.fetchPhotosNextPage()
+    }
+    
+    func fetchPhotosNextPageIfNeeded(indexPath: IndexPath) {
+        if indexPath.row + 1 == photos.count { imageListService.fetchPhotosNextPage()
+        }
     }
     
     func updateTableView() {

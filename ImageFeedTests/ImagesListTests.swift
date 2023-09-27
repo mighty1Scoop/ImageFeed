@@ -14,9 +14,13 @@ final class ImagesListPresenterSpy: ImagesListPresenterProtocol {
     
     var photos: [ImageFeed.Photo] = []
 
-    func fetchPhotosNextPage() {
+    func fetchPhotos() {
         fetchPhotosCalled = true
     }
+    
+    func fetchPhotosNextPageIfNeeded(indexPath: IndexPath) {
+    }
+    
     
     func updateTableView() {
     }
@@ -73,7 +77,7 @@ final class ImageListServiceStub: ImageListServiceProtocol {
     }
     
     private func generatePhoto() -> Photo {
-        var photo = Photo(
+        let photo = Photo(
             id: "\(UUID().uuidString)",
             size: CGSize(width: Double.random(in: 1...100), height: Double.random(in: 1...300)),
             createdAt: "2016-05-03T11:00:28-04:00",

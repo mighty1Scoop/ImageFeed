@@ -40,7 +40,7 @@ final class ImagesListViewController: UIViewController {
         
         configureTableView()
         updateTableViewObserver()
-        presenter.fetchPhotosNextPage()
+        presenter.fetchPhotos()
     }
     
     // MARK: - Navigation
@@ -87,8 +87,10 @@ extension ImagesListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == presenter.photos.count {
-            presenter.fetchPhotosNextPage()
+        if
+            let visibleRows = tableView.indexPathsForVisibleRows,
+            indexPath == visibleRows.last {
+            presenter.fetchPhotosNextPageIfNeeded(indexPath: indexPath)
         }
     }
     
